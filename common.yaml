@@ -1,0 +1,97 @@
+company_exch_admin::user: 'DOMAIN\username'
+company_exch_admin::password: >
+    ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEw
+    DQYRfVK1lxZC5ZentHQOmlrCmEggEAGR98u7i1F7S9Fq7K+VbPAjYsKbikOK
+    drhBpbQmjNt6d+U/HMXnFey6s4zPgIiqn7oNcik4sdmiHK5hHX+Pqnlu3hEl
+    DLrlweaAaFElAx2J7jWOqRfVK1lxZC5ZentHQOmlrCmmlrCmZQAhHSMmltg
+    fc2jIby8OHloNVOQlMpTv10M+OnRfVK1lxZC5ZentHQOmlrCm7eNqygn9gDw
+    y5sIZh2FRfVK1lxZC5ZentHQOmlrCRfVK1lxZC5ZentHQOmlrCmPG8UZhnNM
+    vSc2cXOm4mDFrBqAIso0UWPHnHBXdvIlE1Vk9Yu/paF8K+P4xLIqGuOfOeyq
+    1UH9JjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBreK6WyoH9jR05PJ34
+    ZnFfgCARfVK1lxZC5ZentHQOmlrCmhYlSd23SL5NuWzQbZNQ7jGHstQZI4Q==]
+
+profile::windows::exchange_server::installation_iso_path: '//server/share/Exchange 2016/ISO/SW_DVD9_Exchange_Svr_2016_MultiLang_-12_CU_Std_Ent_.iso_MLF_X22-03653.ISO'
+profile::windows::exchange_server::installation_iso_drive_letter: 'X'
+profile::windows::exchange_server::organization_name: 'Company'
+profile::windows::exchange_server::user: "%{lookup('company_exch_admin::user')}"
+profile::windows::exchange_server::password: "%{lookup('company_exch_admin::password')}"
+profile::windows::exchange_server::product_key: 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX'
+profile::windows::exchange_server::certificate_file: 'puppet:///windows/exchange_server/exchange_certificate.pfx'
+profile::windows::exchange_server::certificate_thumbprint: '‎byhbfsrf23483d6d031a51e5edalmkjn6bcc1234'
+profile::windows::exchange_server::certificate_pfx_password: >
+    ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEw
+    DQYRfVK1lxZC5ZentHQOmlrCmEggEAGR98u7i1F7S9Fq7K+VbPAjYsKbikOK
+    drhBpbQmjNt6d+U/HMXnFey6s4zPgIiqn7oNcik4sdmiHK5hHX+Pqnlu3hEl
+    DLrlweaAaFElAx2J7jWOqRfVK1lxZC5ZentHQOmlrCmmlrCmZQAhHSMmltg
+    fc2jIby8OHloNVOQlMpTv10M+OnRfVK1lxZC5ZentHQOmlrCm7eNqygn9gDw
+    y5sIZh2FRfVK1lxZC5ZentHQOmlrCRfVK1lxZC5ZentHQOmlrCmPG8UZhnNM
+    vSc2cXOm4mDFrBqAIso0UWPHnHBXdvIlE1Vk9Yu/paF8K+P4xLIqGuOfOeyq
+    1UH9JjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBreK6WyoH9jR05PJ34
+    ZnFfgCARfVK1lxZC5ZentHQOmlrCmhYlSd23SL5NuWzQbZNQ7jGHstQZI4Q==]
+
+profile::windows::exchange_server_witness::user: "%{lookup('company_exch_admin::user')}"
+profile::windows::exchange_server_witness::password: "%{lookup('company_exch_admin::password')}"
+profile::windows::exchange_server_witness::dag_witness_directory: 'D:\DAGFileShareWitness'
+profile::windows::exchange_server_witness::exchange_subsystem_user: 'DOMAIN\Exchange Trusted Subsystem'
+
+profile::windows::exchange_server_mailbox_primary::user: "%{lookup('company_exch_admin::user')}"
+profile::windows::exchange_server_mailbox_primary::password: "%{lookup('company_exch_admin::password')}"
+profile::windows::exchange_server_mailbox_primary::db_name: 'DB1'
+profile::windows::exchange_server_mailbox_primary::folders_to_create: ['E:/DB1','E:/DB1/DB','E:/DB1/LOG'] # Must be defined sequentially to ensure folders are created in order
+profile::windows::exchange_server_mailbox_primary::db_file: 'E:/DB1/DB/DB1.edb' # Ensure the path is defined in folders_to_create
+profile::windows::exchange_server_mailbox_primary::log_path: 'E:/DB1/LOG' # Ensure the path is defined in folders_to_create
+profile::windows::exchange_server_mailbox_primary::db_delete_retention: '14.00:00:00'
+profile::windows::exchange_server_mailbox_primary::db_warning_quota: 'Unlimited'
+profile::windows::exchange_server_mailbox_primary::db_prohibit_send_quota: 'Unlimited'
+profile::windows::exchange_server_mailbox_primary::db_prohibit_receive_quota: 'Unlimited'
+profile::windows::exchange_server_mailbox_primary::certificate_file: "%{lookup('profile::windows::exchange_server::certificate_file')}"
+profile::windows::exchange_server_mailbox_primary::certificate_thumbprint: "%{lookup('profile::windows::exchange_server::certificate_thumbprint')}"
+profile::windows::exchange_server_mailbox_primary::certificate_pfx_password: "%{lookup('profile::windows::exchange_server::certificate_pfx_password')}"
+profile::windows::exchange_server_mailbox_primary::dag_name: 'DAG'
+profile::windows::exchange_server_mailbox_primary::dag_total_servers: 4
+profile::windows::exchange_server_mailbox_primary::dag_ip_addresses: ['10.1.1.4','10.2.1.4']
+profile::windows::exchange_server_mailbox_primary::dag_witness_server: 'witness1.company.com.au'
+profile::windows::exchange_server_mailbox_primary::dag_witness_alternative_server: 'witness2.company.com.au'
+profile::windows::exchange_server_mailbox_primary::dag_witness_directory: "%{lookup('profile::windows::exchange_server_witness:dag_witness_directory')}"
+profile::windows::exchange_server_mailbox_primary::dag_network_mapi_name: 'MapiNetwork'
+profile::windows::exchange_server_mailbox_primary::dag_network_mapi_replication_enabled: false
+profile::windows::exchange_server_mailbox_primary::dag_network_mapi_subnets: ['10.1.1.0/24','10.2.1.0/24']
+profile::windows::exchange_server_mailbox_primary::dag_network_repl_name: 'ReplNetwork'
+profile::windows::exchange_server_mailbox_primary::dag_network_repl_replication_enabled: true
+profile::windows::exchange_server_mailbox_primary::dag_network_repl_subnets: ['10.1.2.0/24','10.2.2.0/24']
+
+profile::windows::exchange_server_mailbox_secondary::user: "%{lookup('company_exch_admin::user')}"
+profile::windows::exchange_server_mailbox_secondary::password: "%{lookup('company_exch_admin::password')}"
+profile::windows::exchange_server_mailbox_secondary::db_name: "%{lookup('profile::windows::exchange_server_mailbox_primary::db_name')}"
+profile::windows::exchange_server_mailbox_secondary::certificate_file: "%{lookup('profile::windows::exchange_server::certificate_file')}"
+profile::windows::exchange_server_mailbox_secondary::certificate_thumbprint: "%{lookup('profile::windows::exchange_server::certificate_thumbprint')}"
+profile::windows::exchange_server_mailbox_secondary::certificate_pfx_password: "%{lookup('profile::windows::exchange_server::certificate_pfx_password')}"
+profile::windows::exchange_server_mailbox_secondary::dag_name: "%{lookup('profile::windows::exchange_server_mailbox_primary::dag_name')}"
+
+profile::windows::exchange_server_mailbox_virtual_directories::user: "%{lookup('company_exch_admin::user')}"
+profile::windows::exchange_server_mailbox_virtual_directories::password: "%{lookup('company_exch_admin::password')}"
+profile::windows::exchange_server_mailbox_virtual_directories::cas_site_scopes: ['AD-SITE-1', 'AD-SITE-2', 'AD-SITE-3']
+profile::windows::exchange_server_mailbox_virtual_directories::cas_internal_domain: 'outlook.company.com'
+profile::windows::exchange_server_mailbox_virtual_directories::cas_external_domain: 'outlook.company.com'
+profile::windows::exchange_server_mailbox_virtual_directories::cas_autodiscover_domain: 'autodiscover.company.com'
+
+profile::windows::exchange_server_smtp::user: "%{lookup('company_exch_admin::user')}"
+profile::windows::exchange_server_smtp::password: "%{lookup('company_exch_admin::password')}"
+profile::windows::exchange_server_smtp::connectors:
+  - name: 'Connector 1'
+    authmechanism: ['Tls','Integrated','BasicAuth','ExchangeServer']
+    bindings: ['0.0.0.0:26']
+    maxmessagesize: '35MB'
+    permissiongroups: ['ExchangeUsers','ExchangeServers','ExchangeLegacyServers']
+    remoteipranges: ['10.1.1.1', '10.1.1.2', '10.1.1.3','10.1.1.4']
+    transportrole: 'FrontendTransport'
+    usage: 'Custom' # Client || Internal || Internet || Partner || Custom
+
+  - name: 'Connector 2'
+    authmechanism: ['Tls','ExternalAuthoritative']
+    bindings: ['0.0.0.0:25']
+    maxmessagesize: '30MB'
+    permissiongroups: ['AnonymousUsers','ExchangeUsers','ExchangeServers']
+    remoteipranges: ['10.2.2.1', '10.2.2.2', '10.2.2.3', '10.2.2.4']
+    transportrole: 'FrontendTransport'
+    usage: 'Custom' # Client || Internal || Internet || Partner || Custom
